@@ -5,7 +5,7 @@
 				<v-col cols="12" sm="8" md="4">
 					<v-card class="elevation-12">
 						<v-toolbar color="primary" dark flat>
-							<v-toolbar-title>Login form</v-toolbar-title>
+							<v-toolbar-title>Register</v-toolbar-title>
 							<v-spacer></v-spacer>
 						</v-toolbar>
 						<v-form @submit.prevent="submit">
@@ -33,7 +33,7 @@
 							<v-card-actions>
 								<v-spacer></v-spacer>
 								<v-btn color="primary" type="submit"
-									>Login</v-btn
+									>Register</v-btn
 								>
 							</v-card-actions>
 						</v-form>
@@ -55,18 +55,15 @@
 		},
 		methods: {
 			submit() {
-				console.log("submitting login request");
-				console.log(this.email);
-				console.log(this.password);
-
 				const requestBody = {
 					query: `
-						query {
-							login(
+						mutation {
+							createUser(userInput: {
 								email: "${this.email}",
 								password: "${this.password}"
-							) {
-								token
+							}) {
+								_id
+								email
 							}
 						}
 					`
