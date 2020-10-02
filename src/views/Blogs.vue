@@ -4,35 +4,34 @@
 			<v-row align="center" justify="center">
 				<v-col cols="12" sm="8" md="4">
 					<v-card class="elevation-12">
-						<v-toolbar color="primary" dark flat>
-							<v-toolbar-title>Login form</v-toolbar-title>
+						<v-toolbar color="secondary" flat>
+							<v-toolbar-title>New Post</v-toolbar-title>
 							<v-spacer></v-spacer>
 						</v-toolbar>
 						<v-form @submit.prevent="submit">
 							<v-card-text>
 								<v-text-field
-									v-model="email"
-									label="Email"
-									name="email"
-									prepend-icon="mdi-account"
+									v-model="title"
+									label="Title"
+									name="title"
 									type="text"
 								></v-text-field>
-
 								<v-text-field
-									v-model="password"
-									label="Password"
-									name="password"
-									prepend-icon="mdi-lock"
-									:append-icon="
-										showPassword ? 'mdi-eye' : 'mdi-eye-off'
-									"
-									@click:append="showPassword = !showPassword"
-									:type="showPassword ? 'text' : 'password'"
+									v-model="description"
+									label="Description"
+									name="description"
+									type="text"
 								></v-text-field>
+								<v-textarea
+									v-model="content"
+									label="Content"
+									name="content"
+									outlined
+								></v-textarea>
 							</v-card-text>
 							<v-card-actions>
 								<v-spacer></v-spacer>
-								<v-btn color="primary" type="submit"
+								<v-btn color="accent" type="submit"
 									>Login</v-btn
 								>
 							</v-card-actions>
@@ -48,27 +47,34 @@
 	export default {
 		data() {
 			return {
-				email: "",
-				password: "",
-				showPassword: false
+				title: '',
+				description: '',
+				content: ''
 			};
+		},
+		computed: {
+			token() {
+				return this.$store.state.token
+			}
 		},
 		methods: {
 			submit() {
-				console.log("submitting login request");
-				console.log(this.email);
-				console.log(this.password);
+				console.log("submitting new post");
 
 				const requestBody = {
 					query: `
 						query {
-							login(
-								email: "${this.email}",
-								password: "${this.password}"
-							) {
-								userID
-								token
-								tokenExpiration
+							posts {
+								_id
+								title
+								description
+								content
+								createdAt
+								updatedAt
+								author {
+									email
+									
+								}
 							}
 						}
 					`
@@ -78,15 +84,13 @@
 					method: "POST",
 					body: JSON.stringify(requestBody),
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						'Authorization': `Bearer ${this.token}`
 					}
 				})
 					.then(res => res.json())
 					.then(resData => {
 						console.log(resData)
-						const token = resData.data.login.token
-						localStorage.setItem('token', token)
-						this.$store.commit('setToken', token)
 					})
 					.catch(err => console.log(err));
 			}
