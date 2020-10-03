@@ -2,12 +2,7 @@
 	<div>
 		<v-app-bar app color="primary" dark>
 			<div class="d-flex align-center">
-				<v-btn to="/" text>Home</v-btn>
-				<v-btn to="/about" text>About</v-btn>
-				<v-btn to="/register" text>Register</v-btn>
-				<v-btn to="/login" text>Login</v-btn>
-				<v-btn to="/blog" text exact>Blog</v-btn>
-				<v-btn to="/blog/new" text>New Post</v-btn>
+				<v-btn v-for="route in routes" :key="route.path" :to="route.path" text exact>{{ route.name }}</v-btn>
 			</div>
 
 			<v-spacer></v-spacer>
@@ -25,5 +20,11 @@
 </template>
 
 <script>
-	export default {};
+	export default {
+		computed: {
+			routes() {
+				return this.$router.options.routes
+			}
+		}
+	};
 </script>

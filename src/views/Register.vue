@@ -17,7 +17,12 @@
 									prepend-icon="mdi-account"
 									type="text"
 								></v-text-field>
-
+								<v-text-field
+									v-model="name"
+									label="Name"
+									name="name"
+									type="text"
+								></v-text-field>
 								<v-text-field
 									v-model="password"
 									label="Password"
@@ -49,6 +54,7 @@
 		data() {
 			return {
 				email: "",
+				name: '',
 				password: "",
 				showPassword: false
 			};
@@ -60,16 +66,18 @@
 						mutation {
 							createUser(userInput: {
 								email: "${this.email}",
+								name: "${this.name}",
 								password: "${this.password}"
 							}) {
-								_id
-								email
+								userID
+								token
+								tokenExpiration
 							}
 						}
 					`
 				};
 
-				fetch("http://localhost:4000/graphql", {
+				fetch(process.env.VUE_APP_API_URL, {
 					method: "POST",
 					body: JSON.stringify(requestBody),
 					headers: {
