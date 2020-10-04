@@ -2,7 +2,13 @@
 	<div>
 		<v-app-bar app color="primary" dark>
 			<div class="d-flex align-center">
-				<v-btn v-for="route in routes" :key="route.path" :to="route.path" text exact>{{ route.name }}</v-btn>
+				<v-btn text exact to="/">Home</v-btn>
+				<v-btn text exact to="/about">About</v-btn>
+				<v-btn v-if="!isAuth" text exact to="/login">Login</v-btn>
+				<v-btn v-if="!isAuth" text exact to="/register">Register</v-btn>
+				<v-btn text exact to="/blog">Blogs</v-btn>
+				<v-btn v-if="isAuth" text exact to="/blog/new">Post</v-btn>
+				<v-btn v-if="isAuth" text exact @click="$store.commit('logout')">Logout</v-btn>
 			</div>
 
 			<v-spacer></v-spacer>
@@ -20,11 +26,14 @@
 </template>
 
 <script>
+	import { mapGetters } from "vuex";
 	export default {
 		computed: {
 			routes() {
-				return this.$router.options.routes
-			}
+				console.log(this.$router);
+				return this.$router.options.routes;
+			},
+			...mapGetters(["isAuth"])
 		}
 	};
 </script>

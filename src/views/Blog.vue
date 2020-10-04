@@ -54,7 +54,7 @@
 		},
 		computed: {
 			token() {
-				return this.$store.state.token
+				return this.$store.state.auth.token
 			}
 		},
 		methods: {
@@ -68,7 +68,7 @@
 								postInput: {
 									title: "${this.title}",
 									description: "${this.description}",
-									content: "${this.content}"
+									content: "${this.content.split('\n').join('\n')}"
 								}
 							) {
 								_id
@@ -82,6 +82,8 @@
 						}
 					`
 				};
+
+				console.log(this.content.split('\n'));
 
 				fetch(process.env.VUE_APP_API_URL, {
 					method: "POST",

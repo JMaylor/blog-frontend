@@ -1,19 +1,16 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import auth from "./auth";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state: {
-		token: "",
-		isAuth: true,
-    },
+    state: {},
     getters: {},
-    mutations: {
-        setToken(state, token) {
-            state.token = token;
-        },
-    },
+    mutations: {},
     actions: {},
-    modules: {},
+    modules: {
+        auth,
+    },
 });

@@ -14,7 +14,7 @@
 									v-model="email"
 									label="Email"
 									name="email"
-									prepend-icon="mdi-account"
+									prepend-icon="mdi-at"
 									type="text"
 								></v-text-field>
 
@@ -61,17 +61,17 @@
 
 				const requestBody = {
 					query: `
-						query {
-							login(
-								email: "${this.email}",
-								password: "${this.password}"
-							) {
-								userID
-								token
-								tokenExpiration
+							query {
+								login(
+									email: "${this.email}",
+									password: "${this.password}"
+								) {
+									userID
+									token
+									tokenExpiration
+								}
 							}
-						}
-					`
+						`
 				};
 
 				fetch(process.env.VUE_APP_API_URL, {
@@ -83,10 +83,11 @@
 				})
 					.then(res => res.json())
 					.then(resData => {
-						console.log(resData)
-						const token = resData.data.login.token
-						localStorage.setItem('token', token)
-						this.$store.commit('setToken', token)
+						console.log(resData);
+						const token = resData.data.login.token;
+						const userID = resData.data.login.userID;
+						const tokenExpiration = new Date().getTime() + resData.data.login.tokenExpiration * 1000
+						this.$store.commit("setUser", { token, userID, tokenExpiration });
 					})
 					.catch(err => console.log(err));
 			}

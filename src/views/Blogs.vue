@@ -10,6 +10,12 @@
 						<v-card-subtitle>
 							{{ post.author.name }}
 						</v-card-subtitle>
+						<v-card-text>
+							{{ post.description }}
+						</v-card-text>
+						<v-card-text>
+							<code>{{ post.content }}</code>
+						</v-card-text>
 					</v-card>
 				</v-col>
 			</v-row>

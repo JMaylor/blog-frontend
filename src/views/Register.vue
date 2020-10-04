@@ -14,13 +14,14 @@
 									v-model="email"
 									label="Email"
 									name="email"
-									prepend-icon="mdi-account"
+									prepend-icon="mdi-at"
 									type="text"
 								></v-text-field>
 								<v-text-field
 									v-model="name"
 									label="Name"
 									name="name"
+									prepend-icon="mdi-account"
 									type="text"
 								></v-text-field>
 								<v-text-field
@@ -85,7 +86,9 @@
 					}
 				})
 					.then(res => res.json())
-					.then(resData => console.log(resData))
+					.then(resData => {
+						console.log(resData)
+					})
 					.catch(err => console.log(err));
 			}
 		}
