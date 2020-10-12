@@ -59,7 +59,7 @@
 		},
 		methods: {
 			submit() {
-				console.log("submitting new post");
+				const content = this.content.split('\n').join('NEW_LINE_MAYLOR')
 
 				const requestBody = {
 					query: `
@@ -68,7 +68,7 @@
 								postInput: {
 									title: "${this.title}",
 									description: "${this.description}",
-									content: "${this.content.split('\n').join('\n')}"
+									content: "${content}"
 								}
 							) {
 								_id
@@ -82,8 +82,6 @@
 						}
 					`
 				};
-
-				console.log(this.content.split('\n'));
 
 				fetch(process.env.VUE_APP_API_URL, {
 					method: "POST",

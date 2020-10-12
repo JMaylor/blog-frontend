@@ -2,7 +2,7 @@
 	<v-main>
 		<v-container class="fill-height" fluid>
 			<v-row align="center" justify="center">
-				<v-col cols="4" v-for="post in posts" :key="post._id">
+				<v-col cols="4" v-for="post in postsToRender" :key="post._id">
 					<v-card>
 						<v-card-title>
 							{{ post.title }}
@@ -36,6 +36,14 @@
 		computed: {
 			token() {
 				return this.$store.state.token
+			},
+			postsToRender() {
+				return this.posts.map(post => {
+					return {
+						...post,
+						content: post.content.split('NEW_LINE_MAYLOR').join('\n')
+					}
+				})
 			}
 		},
 		methods: {
