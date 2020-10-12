@@ -35,6 +35,10 @@
 									@click:append="showPassword = !showPassword"
 									:type="showPassword ? 'text' : 'password'"
 								></v-text-field>
+								<v-file-input
+								v-model="image"
+									truncate-length="15"
+								></v-file-input>
 							</v-card-text>
 							<v-card-actions>
 								<v-spacer></v-spacer>
@@ -55,27 +59,28 @@
 		data() {
 			return {
 				email: "",
-				name: '',
+				name: "",
 				password: "",
-				showPassword: false
+				showPassword: false,
+				image: "",
 			};
 		},
 		methods: {
 			submit() {
 				const requestBody = {
 					query: `
-						mutation {
-							createUser(userInput: {
-								email: "${this.email}",
-								name: "${this.name}",
-								password: "${this.password}"
-							}) {
-								userID
-								token
-								tokenExpiration
+							mutation {
+								createUser(userInput: {
+									email: "${this.email}",
+									name: "${this.name}",
+									password: "${this.password}"
+								}) {
+									userID
+									token
+									tokenExpiration
+								}
 							}
-						}
-					`
+						`
 				};
 
 				fetch(process.env.VUE_APP_API_URL, {
@@ -87,7 +92,7 @@
 				})
 					.then(res => res.json())
 					.then(resData => {
-						console.log(resData)
+						console.log(resData);
 					})
 					.catch(err => console.log(err));
 			}
